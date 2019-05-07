@@ -168,37 +168,27 @@ var findLastUrlDelta = function findLastUrlDelta(url) {
   return delta + repeatCount;
 };
 var emptyFn = function emptyFn() {};
-/**
- *
- * @param {object} params
- * @returns {string}
- */
-
 var parseObj2QueryStr = function parseObj2QueryStr() {
-  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object.keys(params).reduce(function (acc, key) {
-    return "".concat(acc).concat(key, "=").concat(params[key], "&");
+  var query = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return Object.keys(query).reduce(function (acc, key) {
+    return "".concat(acc).concat(key, "=").concat(query[key], "&");
   }, "&");
 };
 /**
  * url can not be strict that start with '/'. also can with "?query1=value1&query2=value2"
- * @param {string} url
- * @param {object} params
  */
 
 var joinUrlAndQuery = function joinUrlAndQuery(url) {
-  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var query = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var splitStr = /\?/.test(url) ? "" : "?";
-  return safeWxApiTargetUrl(url) + splitStr + parseObj2QueryStr(params);
+  return safeWxApiTargetUrl(url) + splitStr + parseObj2QueryStr(query);
 };
 /**
- * default return params as {}, return cb as emptyFn
- * @param  {...[params, cb]} payload
- * @returns {params, cb}
+ * default return query as {}, return cb as emptyFn
  */
 
-var getParamsAndCb = function getParamsAndCb() {
-  var params = {};
+var getQueryAndCb = function getQueryAndCb() {
+  var query = {};
   var cb = emptyFn;
 
   for (var _len = arguments.length, payload = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -209,31 +199,26 @@ var getParamsAndCb = function getParamsAndCb() {
     if (typeof v === "function") {
       cb = v;
     } else if (Object.prototype.toString.call(v) === "[object Object]") {
-      params = v;
+      query = v;
     }
   });
   return {
-    params: params,
+    query: query,
     cb: cb
   };
 };
 
-/**
- *
- * @param {string} url
- * @returns {void}
- */
 var redirectTo = function redirectTo(url) {
   for (var _len = arguments.length, payload = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     payload[_key - 1] = arguments[_key];
   }
 
-  var _getParamsAndCb = getParamsAndCb.apply(void 0, payload),
-      params = _getParamsAndCb.params,
-      cb = _getParamsAndCb.cb;
+  var _getQueryAndCb = getQueryAndCb.apply(void 0, payload),
+      query = _getQueryAndCb.query,
+      cb = _getQueryAndCb.cb;
 
   wx.redirectTo({
-    url: joinUrlAndQuery(url, params),
+    url: joinUrlAndQuery(url, query),
     success: function success() {
       cb(true);
     },
@@ -243,28 +228,22 @@ var redirectTo = function redirectTo(url) {
   });
 };
 
-/**
- *
- * @param {string} url
- * @param {object} params
- * @param {Function} cb
- */
 var navigateTo = function navigateTo(url) {
   for (var _len = arguments.length, payload = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     payload[_key - 1] = arguments[_key];
   }
 
-  var _getParamsAndCb = getParamsAndCb.apply(void 0, payload),
-      params = _getParamsAndCb.params,
-      cb = _getParamsAndCb.cb;
+  var _getQueryAndCb = getQueryAndCb.apply(void 0, payload),
+      query = _getQueryAndCb.query,
+      cb = _getQueryAndCb.cb;
 
   var pages = getCurrentPages();
 
   if (pages.length >= this.maxStack) {
-    redirectTo(url, params, cb);
+    redirectTo(url, query, cb);
   } else {
     wx.navigateTo({
-      url: joinUrlAndQuery(url, params),
+      url: joinUrlAndQuery(url, query),
       success: function success() {
         cb(true);
       },
@@ -340,7 +319,8 @@ var navigateLastTo = function navigateLastTo(url) {
   }
 };
 
-var refresh = function refresh(cb) {
+var refresh = function refresh() {
+  var cb = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : emptyFn;
   // eslint-disable-next-line
   var pages = getCurrentPages();
   var currentPage = pages[pages.length - 1];
@@ -386,31 +366,26 @@ var switchTab = function switchTab(target) {
   });
 };
 
-/**
- *
- * @param {string} url
- * @returns {void}
- */
 var reLaunch = function reLaunch(url) {
   for (var _len = arguments.length, payload = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     payload[_key - 1] = arguments[_key];
   }
 
-  var _getParamsAndCb = getParamsAndCb.apply(void 0, payload),
-      params = _getParamsAndCb.params,
-      cb = _getParamsAndCb.cb; // eslint-disable-next-line
+  var _getQueryAndCb = getQueryAndCb.apply(void 0, payload),
+      query = _getQueryAndCb.query,
+      cb = _getQueryAndCb.cb; // eslint-disable-next-line
 
 
   var pages = getCurrentPages(); // 1. redirect
 
   if (pages.length <= 1) {
-    redirectTo(url, params, cb);
+    redirectTo(url, query, cb);
   } else if (pages[0].route === getUrlRoute(url)) {
     // 2. back to first page and refresh
     wx.navigateBack({
       delta: pages.length - 1,
       success: function success() {
-        redirectTo(url, params, cb);
+        redirectTo(url, query, cb);
       },
       fail: function fail() {
         wx.reLaunch({

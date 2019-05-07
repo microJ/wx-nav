@@ -18,6 +18,9 @@ export declare type INavCb = (isNavSuccess?: boolean) => void;
 export interface IPureStringObject {
     [key: string]: string;
 }
+export interface IQuery {
+    [key: string]: string | number | boolean;
+}
 export interface IApisName {
     navigateTo: "navigateTo";
     navigateBack: "navigateBack";
@@ -28,7 +31,7 @@ export interface IApisName {
     reLaunch: "reLaunch";
     redirectTo: "redirectTo";
 }
-export declare type IParamsOrNavCb = INavCb | IPureStringObject;
+export declare type IQueryOrNavCb = INavCb | IQuery;
 export interface IWxNavWithApi {
     navigateTo: INavigateTo;
     navigateBack: INavigateBack;
