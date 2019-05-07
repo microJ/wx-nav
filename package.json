@@ -1,0 +1,52 @@
+{
+  "name": "wx-nav",
+  "version": "0.0.1",
+  "description": "powerful weixin miniapp router",
+  "keywords": [
+    "wx nav",
+    "wx navigator",
+    "wx router",
+    "miniapp router",
+    "wx.switchTab",
+    "wx.reLaunch",
+    "wx.redirectTo",
+    "wx.navigateTo",
+    "wx.navigateBack",
+    "miniapp",
+    "小程序 路由 增强",
+    "小程序 router"
+  ],
+  "main": "dist/wx-nav.cjs.js",
+  "module": "dist/wx-nav.esm.js",
+  "types": "types/index.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "repository": "git@github.com:microJ/wx-nav.git",
+  "author": "microJ",
+  "license": "MIT",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "yarn run type-check -- --watch",
+    "build:types": "rimraf types && tsc --emitDeclarationOnly",
+    "build:js": "rimraf dist && rollup -c",
+    "build": "yarn run build:types && yarn run build:js",
+    "clear": "rimraf types && rimraf dist",
+    "prepublish": "yarn run build"
+  },
+  "devDependencies": {
+    "@babel/core": "7.4.0",
+    "@babel/plugin-proposal-class-properties": "7.4.0",
+    "@babel/plugin-proposal-object-rest-spread": "7.4.0",
+    "@babel/preset-env": "7.4.2",
+    "@babel/preset-typescript": "7.3.3",
+    "@types/weixin-app": "^2.2.27",
+    "rimraf": "^2.6.3",
+    "rollup": "1.11.3",
+    "rollup-plugin-babel": "4.3.2",
+    "rollup-plugin-commonjs": "9.3.4",
+    "rollup-plugin-node-resolve": "4.2.3",
+    "typescript": "3.4.5"
+  }
+}
