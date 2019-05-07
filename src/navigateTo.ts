@@ -1,27 +1,21 @@
 import redirectTo from "./redirectTo"
-import { joinUrlAndQuery, getParamsAndCb } from "./utils"
-import { IParamsOrNavCb } from "./types/index.t"
+import { joinUrlAndQuery, getQueryAndCb } from "./utils"
+import { IQueryOrNavCb } from "./types/index.t"
 import { INavigateTo } from "./types/navigateTo.t"
 import WxNavBase from "./base"
 
-/**
- *
- * @param {string} url
- * @param {object} params
- * @param {Function} cb
- */
 const navigateTo: INavigateTo = function(
   this: WxNavBase,
   url: string,
-  ...payload: IParamsOrNavCb[]
+  ...payload: IQueryOrNavCb[]
 ) {
-  const { params, cb } = getParamsAndCb(...payload)
+  const { query, cb } = getQueryAndCb(...payload)
   const pages = getCurrentPages()
   if (pages.length >= this.maxStack) {
-    redirectTo(url, params, cb)
+    redirectTo(url, query, cb)
   } else {
     wx.navigateTo({
-      url: joinUrlAndQuery(url, params),
+      url: joinUrlAndQuery(url, query),
       success() {
         cb(true)
       },

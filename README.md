@@ -33,7 +33,7 @@ powerful weixin miniapp router.
 
 ## install
 
-require `./dist/index.js`
+require `./dist/wx-nav.cjs.js` or `./dist/wx-nav.esm.js`.
 
 or use `npm` or `yarn`:
 
@@ -57,15 +57,18 @@ export const {
   redirectTo,
   reLaunch
 } = new WxNav({
-  maxStack: 10, // optional. default value 10. max length of page stack.
+  // optional. default value 10. max length of page stack.
+  maxStack: 10,
   // optional. for `refresh()` or `switchTab(pageAlias)`
   tabBarPages: {
     // pageAlias: pageRoute
     home: "pages/home/main",
     userCenter: "pages/userCenter/main"
   },
-  beforeEach(){},  // optional
-  afterEach(){}  // optional
+  // optional
+  beforeEach(){},
+  // optional
+  afterEach(){}
 })
 
 // index.vue
@@ -82,10 +85,11 @@ goToNextPage(){
 
 ### navigateTo
 
-`navigateTo(url, params, cb)`
+`navigateTo(url [, query [, cb]])`
+`navigateTo(url [, cb])`
 
 - `url`: string.
-- `params`: object. like `{a:b, c:d}` will be transform to `${url}?a=b&c=d`.
+- `query`: object. like `{a:b, c:d}` will be transform to `${url}?a=b&c=d`.
 - `cb`: function. optional. receive a boolean value that mark the function call success or fail.
 
 like `wx.navigateTo`, but `navigateTo` will use `redirectTo` instead when current pages length is MAX_PAGES_LENGTH.
@@ -93,22 +97,22 @@ like `wx.navigateTo`, but `navigateTo` will use `redirectTo` instead when curren
 ### navigateBack
 
 `navigateBack(delta ,cb)`
-
 `navigateBack(cb)`
+`navigateBack()`
 
-- `delta`: integer. default value is 1.
+- `delta`: integer. default value is `1`.
 
 like `wx.navigateBack`, but `navigateBack()` will check the target url whether repeat sequential or not. if page stack is `[A, B, C, C, C, D]`, `navigateBack()` will be back to page C, stack is `[A, B, C]`.
 
 ### navigateBackTo
 
-`navigateBackTo(url, cb)`
+`navigateBackTo(url [, cb])`
 
 `navigateBackTo(url)` will find the latest `url` page in page stack, and back to the page. there is also check `url` whether repeat sequential or not. if `url` is repeated, back to the earlist `url`. if page stack is `[A, B, C, C, C, D, E, F]`, `navigateBackTo(C)` will be back to page C, stack is `[A, B, C]`.
 
 ### navigateLastTo
 
-`navigateLastTo(url, cb)`
+`navigateLastTo(url [, cb])`
 
 `navigateLastTo(url)` assert last page is `url`, and back to `url`。
 
@@ -121,22 +125,25 @@ like `wx.navigateBack`, but `navigateBack()` will check the target url whether r
 ### refresh
 
 `refresh(cb)`
+`refresh()`
 
 refresh current page, such as TabBar page.
 
 ### switchTab
 
-`switchTab(target, cb)`
+`switchTab(target [, cb])`
 
 - `target`: string. `url` or alias of `url`.
 
 ### redirectTo
 
-`redirectTo(url, params, cb)`
+`redirectTo(url [, query [, cb]])`
+`redirectTo(url [, cb])`
 
 ### reLaunch
 
-`reLaunch(url, params, cb)`
+`reLaunch(url [, query [, cb]])`
+`reLaunch(url [, cb])`
 
 it's better perfermance than `wx.reLaunch`.
 

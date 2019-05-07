@@ -1,19 +1,14 @@
-import { joinUrlAndQuery, getParamsAndCb } from "./utils"
-import { IParamsOrNavCb } from "./types/index.t"
+import { joinUrlAndQuery, getQueryAndCb } from "./utils"
+import { IQueryOrNavCb } from "./types/index.t"
 import { IRedirectTo } from "./types/redirectTo.t"
 
-/**
- *
- * @param {string} url
- * @returns {void}
- */
 const redirectTo: IRedirectTo = (
   url: string,
-  ...payload: IParamsOrNavCb[]
+  ...payload: IQueryOrNavCb[]
 ): void => {
-  const { params, cb } = getParamsAndCb(...payload)
+  const { query, cb } = getQueryAndCb(...payload)
   wx.redirectTo({
-    url: joinUrlAndQuery(url, params),
+    url: joinUrlAndQuery(url, query),
     success() {
       cb(true)
     },

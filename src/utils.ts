@@ -1,4 +1,4 @@
-import { IPureStringObject, INavCb } from "./types/index.t"
+import { INavCb, IQuery } from "./types/index.t"
 
 export const MAX_PAGES_LENGTH: number = 10
 
@@ -57,44 +57,32 @@ export const findLastUrlDelta = (url: string): number => {
 
 export const emptyFn = () => {}
 
-/**
- *
- * @param {object} params
- * @returns {string}
- */
-export const parseObj2QueryStr = (params: IPureStringObject = {}) =>
-  Object.keys(params).reduce((acc, key) => `${acc}${key}=${params[key]}&`, "&")
+export const parseObj2QueryStr = (query: IQuery = {}) =>
+  Object.keys(query).reduce((acc, key) => `${acc}${key}=${query[key]}&`, "&")
 
 /**
  * url can not be strict that start with '/'. also can with "?query1=value1&query2=value2"
- * @param {string} url
- * @param {object} params
  */
-export const joinUrlAndQuery = (
-  url: string,
-  params: IPureStringObject = {}
-) => {
+export const joinUrlAndQuery = (url: string, query: IQuery = {}) => {
   const splitStr = /\?/.test(url) ? "" : "?"
-  return safeWxApiTargetUrl(url) + splitStr + parseObj2QueryStr(params)
+  return safeWxApiTargetUrl(url) + splitStr + parseObj2QueryStr(query)
 }
 
 /**
- * default return params as {}, return cb as emptyFn
- * @param  {...[params, cb]} payload
- * @returns {params, cb}
+ * default return query as {}, return cb as emptyFn
  */
-export const getParamsAndCb = (...payload: any[]) => {
-  let params: IPureStringObject = {}
+export const getQueryAndCb = (...payload: any[]) => {
+  let query: IQuery = {}
   let cb: INavCb = emptyFn
   payload.forEach(v => {
     if (typeof v === "function") {
       cb = v
     } else if (Object.prototype.toString.call(v) === "[object Object]") {
-      params = v
+      query = v
     }
   })
   return {
-    params: params,
-    cb: cb
+    query,
+    cb
   }
 }

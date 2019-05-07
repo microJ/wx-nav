@@ -31,7 +31,7 @@
 
 ## install
 
-引入 `./dist/index.js`
+引入 `./dist/wx-nav.cjs.js` 或 `./dist/wx-nav.esm.js`。
 
 或者使用 `npm` or `yarn` 安装:
 
@@ -55,7 +55,8 @@ export const {
   reLaunch,
   redirectTo
 } = new WxNav({
-  maxStack: 10, // optional. default value 10. max length of page stack.
+  // optional. default value 10. max length of page stack.
+  maxStack: 10,
   // optional. for `refresh()` or `switchTab(pageAlias)`
   tabBarPages: {
     // pageAlias: pageRoute
@@ -66,7 +67,8 @@ export const {
   beforeEach(apiName, to, from, next){
     next()
   },
-  afterEach(apiName, to, from){}  // optional.
+  // optional
+  afterEach(apiName, to, from){}
 })
 
 // index.vue
@@ -83,11 +85,11 @@ goToNextPage(){
 
 ### navigateTo
 
-`navigateTo(url [, params, cb])`
+`navigateTo(url [, query [, cb]])`
 `navigateTo(url [, cb])`
 
 - `url`: string.
-- `params`: object. 类似 `{a:b, c:d}` 会被拼接为页面地址参数 `${url}?a=b&c=d`.
+- `query`: object. 类似 `{a:b, c:d}` 会被拼接为页面地址参数 `${url}?a=b&c=d`.
 - `cb`: function. 可选。接收一个布尔值表明跳转是否成功。
 
 类似 `wx.navigateTo`, 不同的是，如果当前页面栈的长度是限定值时，`navigateTo` 会自动调用 `redirectTo`。
@@ -95,23 +97,23 @@ goToNextPage(){
 ### navigateBack
 
 `navigateBack(delta, cb)`
-
 `navigateBack(cb)`
+`navigateBack()`
 
-- `delta`: integer。后退页数。默认为 1。
+- `delta`: integer。后退页数。默认为 `1`。
 
 类似 `wx.navigateBack`, 但是 `navigateBack()` 会检查上个路径是否重复。如果当前页面栈是 `[A, B, C, C, C, D]`, `navigateBack()` 调用后页面栈会变为 `[A, B, C]`。
 
 ### navigateBackTo
 
-`navigateBackTo(url, cb)`
+`navigateBackTo(url [, cb])`
 
 `navigateBackTo(url)` 会在页面栈中前面的页面中找到最后面的 `url` 并返回到该页。此时，如果 `url` 重复，会进行处理。
 如果页面栈是 `[A, C, B, C, C, C, D, E, F]`, `navigateBackTo(C)` 调用后页面栈变为 `[A, C, B, C]`。
 
 ### navigateLastTo
 
-`navigateLastTo(url, cb)`
+`navigateLastTo(url [, cb])`
 
 `navigateLastTo(url)` 断言上一页是 `url` 并返回到 `url`。
 
@@ -124,23 +126,24 @@ goToNextPage(){
 ### refresh
 
 `refresh(cb)`
+`refresh()`
 
-刷新当前页面，`TabBar` 页面依旧生效。
+刷新当前页面，支持 `TabBar` 页面。
 
 ### switchTab
 
-`switchTab(target, cb)`
+`switchTab(target [, cb])`
 
 - `target`: string. `url` 或者 `url` 的别名。
 
 ### redirectTo
 
-`redirectTo(url [, params, cb])`
+`redirectTo(url [, query, cb])`
 `redirectTo(url [, cb])`
 
 ### reLaunch
 
-`reLaunch(url [, params, cb])`
+`reLaunch(url [, query, cb])`
 `reLaunch(url [, cb])`
 
 比 `wx.reLaunch` 拥有更好的性能。

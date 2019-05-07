@@ -1,3 +1,3 @@
-import { IParamsOrNavCb } from "./index.t"
+import { IQueryOrNavCb } from "./index.t"
 
-export type IRedirectTo = (url: string, ...payload: IParamsOrNavCb[]) => void
+export type IRedirectTo = (url: string, ...payload: IQueryOrNavCb[]) => void

@@ -1,3 +1,3 @@
-import { IParamsOrNavCb } from "./index.t"
+import { IQueryOrNavCb } from "./index.t"
 
-export type IReLaunch = (url: string, ...payload: IParamsOrNavCb[]) => void
+export type IReLaunch = (url: string, ...payload: IQueryOrNavCb[]) => void

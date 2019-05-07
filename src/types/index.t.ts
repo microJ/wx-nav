@@ -20,6 +20,10 @@ export interface IPureStringObject {
   [key: string]: string
 }
 
+export interface IQuery {
+  [key: string]: string | number | boolean
+}
+
 export interface IApisName {
   navigateTo: "navigateTo"
   navigateBack: "navigateBack"
@@ -31,7 +35,7 @@ export interface IApisName {
   redirectTo: "redirectTo"
 }
 
-export type IParamsOrNavCb = INavCb | IPureStringObject
+export type IQueryOrNavCb = INavCb | IQuery
 
 export interface IWxNavWithApi {
   navigateTo: INavigateTo

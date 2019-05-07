@@ -1,10 +1,10 @@
-import { safeWxApiTargetUrl } from "./utils"
+import { safeWxApiTargetUrl, emptyFn } from "./utils"
 import redirectTo from "./redirectTo"
 import WxNavBase from "./base"
 import { INavCb, IPureStringObject } from "./types/index.t"
 import { IRefresh } from "./types/refresh.t"
 
-const refresh: IRefresh = function(this: WxNavBase, cb: INavCb) {
+const refresh: IRefresh = function(this: WxNavBase, cb: INavCb = emptyFn) {
   // eslint-disable-next-line
   const pages = getCurrentPages()
   const currentPage = (pages as any)[pages.length - 1]
