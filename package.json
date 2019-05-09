@@ -33,7 +33,7 @@
     "build:js": "rimraf dist && rollup -c",
     "build": "yarn run build:types && yarn run build:js",
     "clear": "rimraf types && rimraf dist",
-    "prepublish": "yarn run build"
+    "prepublish": "in-publish && yarn run build || not-in-publish"
   },
   "devDependencies": {
     "@babel/core": "7.4.0",
@@ -42,6 +42,7 @@
     "@babel/preset-env": "7.4.2",
     "@babel/preset-typescript": "7.3.3",
     "@types/weixin-app": "^2.2.27",
+    "in-publish": "^2.0.0",
     "rimraf": "^2.6.3",
     "rollup": "1.11.3",
     "rollup-plugin-babel": "4.3.2",
