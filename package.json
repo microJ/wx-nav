@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "description": "powerful weixin miniapp router",
   "keywords": [
+    "wx-nav",
     "wx nav",
     "wx navigator",
     "wx router",
