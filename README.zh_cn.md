@@ -135,6 +135,7 @@ goToNextPage(){
 `switchTab(target [, cb])`
 
 - `target`: string. `url` 或者 `url` 的别名。
+  官方 `api` 不支持 `url` 带参，故不支持 `query`。详情见 [官方文档](https://developers.weixin.qq.com/miniprogram/dev/api/wx.switchTab.html)
 
 ### redirectTo
 

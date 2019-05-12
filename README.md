@@ -134,6 +134,7 @@ refresh current page, such as TabBar page.
 `switchTab(target [, cb])`
 
 - `target`: string. `url` or alias of `url`.
+  why there doesn't support query? see [official document](https://developers.weixin.qq.com/miniprogram/dev/api/wx.switchTab.html)
 
 ### redirectTo
 

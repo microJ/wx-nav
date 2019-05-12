@@ -1,4 +1,4 @@
-import { emptyFn, MAX_PAGES_LENGTH } from "./utils"
+import { MAX_PAGES_LENGTH } from "./utils"
 import navigateTo from "./navigateTo"
 import navigateBack from "./navigateBack"
 import navigateBackTo from "./navigateBackTo"
@@ -50,8 +50,8 @@ export default class WxNav extends WxNavBase {
   constructor({
     maxStack = MAX_PAGES_LENGTH,
     tabBarPages = {},
-    beforeEach = emptyFn,
-    afterEach = emptyFn
+    beforeEach,
+    afterEach
   }: IConstructorParams = {}) {
     super()
 
@@ -69,13 +69,13 @@ export default class WxNav extends WxNavBase {
             ~apisNeedDealTabBar.indexOf(apiName) &&
             this.checkTabBarPage(to)
           ) {
-            switchTab(...(payload as [string, INavCb]))
+            switchTab.call(this, ...(payload as [string, INavCb]))
           } else {
-            ;(apisMap[apiName] as Function).bind(this, ...payload)
+            ;(apisMap[apiName] as Function).call(this, ...payload)
           }
-          afterEach(to, from)
+          afterEach && afterEach(to, from)
         }
-        beforeEach(to, from, next)
+        beforeEach ? beforeEach(to, from, next) : next()
       }
     })
   }

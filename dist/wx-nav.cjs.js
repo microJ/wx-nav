@@ -481,10 +481,8 @@ function (_WxNavBase) {
         maxStack = _ref$maxStack === void 0 ? MAX_PAGES_LENGTH : _ref$maxStack,
         _ref$tabBarPages = _ref.tabBarPages,
         tabBarPages = _ref$tabBarPages === void 0 ? {} : _ref$tabBarPages,
-        _ref$beforeEach = _ref.beforeEach,
-        beforeEach = _ref$beforeEach === void 0 ? emptyFn : _ref$beforeEach,
-        _ref$afterEach = _ref.afterEach,
-        afterEach = _ref$afterEach === void 0 ? emptyFn : _ref$afterEach;
+        beforeEach = _ref.beforeEach,
+        afterEach = _ref.afterEach;
 
     _classCallCheck(this, WxNav);
 
@@ -523,17 +521,17 @@ function (_WxNavBase) {
         var next = function next() {
           // deal tabBar route
           if (~apisNeedDealTabBar.indexOf(apiName) && _this.checkTabBarPage(to)) {
-            switchTab.apply(void 0, _toConsumableArray(payload));
+            switchTab.call.apply(switchTab, [_assertThisInitialized(_this)].concat(_toConsumableArray(payload)));
           } else {
             var _ref2;
 
-            (_ref2 = apisMap[apiName]).bind.apply(_ref2, [_assertThisInitialized(_this)].concat(payload));
+            (_ref2 = apisMap[apiName]).call.apply(_ref2, [_assertThisInitialized(_this)].concat(payload));
           }
 
-          afterEach(to, from);
+          afterEach && afterEach(to, from);
         };
 
-        beforeEach(to, from, next);
+        beforeEach ? beforeEach(to, from, next) : next();
       };
     });
     return _this;

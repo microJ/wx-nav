@@ -17,7 +17,7 @@ const switchTab: ISwitchTab = function(
     return
   }
   wx.switchTab({
-    url: safeWxApiTargetUrl(route),
+    url: safeWxApiTargetUrl(route).split("?")[0],
     success() {
       cb(true)
     },
