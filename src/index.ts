@@ -73,9 +73,9 @@ export default class WxNav extends WxNavBase {
           } else {
             ;(apisMap[apiName] as Function).call(this, ...payload)
           }
-          afterEach && afterEach(to, from)
+          afterEach && afterEach(to, from, apiName)
         }
-        beforeEach ? beforeEach(to, from, next) : next()
+        beforeEach ? beforeEach(to, from, next, apiName) : next()
       }
     })
   }

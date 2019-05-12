@@ -66,9 +66,11 @@ export const {
     userCenter: "pages/userCenter/main"
   },
   // optional
-  beforeEach(){},
+  beforeEach(to, from, next, apiName){
+    next()
+  },
   // optional
-  afterEach(){}
+  afterEach(to, from, apiName){}
 })
 
 // index.vue
