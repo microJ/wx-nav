@@ -11,8 +11,8 @@ export interface IConstructorParams {
     tabBarPages?: {
         [pageKey: string]: string;
     };
-    beforeEach?: (to: string, from: string, next: () => void) => void;
-    afterEach?: (to: string, from: string) => void;
+    beforeEach?: (to: string, from: string, next: () => void, apiName?: keyof IApisName) => void;
+    afterEach?: (to?: string, from?: string, apiName?: keyof IApisName) => void;
 }
 export declare type INavCb = (isNavSuccess?: boolean) => void;
 export interface IPureStringObject {

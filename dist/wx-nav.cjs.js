@@ -528,10 +528,10 @@ function (_WxNavBase) {
             (_ref2 = apisMap[apiName]).call.apply(_ref2, [_assertThisInitialized(_this)].concat(payload));
           }
 
-          afterEach && afterEach(to, from);
+          afterEach && afterEach(to, from, apiName);
         };
 
-        beforeEach ? beforeEach(to, from, next) : next();
+        beforeEach ? beforeEach(to, from, next, apiName) : next();
       };
     });
     return _this;
