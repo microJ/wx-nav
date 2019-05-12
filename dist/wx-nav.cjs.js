@@ -356,7 +356,7 @@ var switchTab = function switchTab(target) {
   }
 
   wx.switchTab({
-    url: safeWxApiTargetUrl(route),
+    url: safeWxApiTargetUrl(route).split("?")[0],
     success: function success() {
       cb(true);
     },
